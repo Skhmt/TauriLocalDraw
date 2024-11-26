@@ -95,7 +95,3 @@ export function createOpenDialog(editor: Editor) {
 		)
 	}
 }
-
-function addToast(arg0: { title: string; description: "invalidRecords" | "notATldrawFile" | "v1File" | "migrationFailed" | "fileFormatVersionTooNew"; severity: string; }) {
-	throw new Error("Function not implemented.");
-}
