@@ -29,8 +29,7 @@ frontend build (creates a single .html file): `npm run build`
 ## todo
 
 1. error checking on file open (see: https://github.com/tldraw/tldraw/blob/d9448fa3621c301a2b3a5de9ee2e5b67e14ff3a4/packages/tldraw/src/lib/utils/tldr/file.ts#L233)
-1. maybe implement a file picker for saving
-1. `enter` should save in the dialog
+1. `enter` should save in the legacy file dialog
 
 ## notes
 
