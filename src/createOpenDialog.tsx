@@ -1,8 +1,10 @@
 import { Editor, parseTldrawJsonFile, TldrawUiButton, TldrawUiButtonLabel, TldrawUiDialogBody, TldrawUiDialogCloseButton, TldrawUiDialogFooter, TldrawUiDialogHeader, TldrawUiDialogTitle } from "@tldraw/tldraw";
 import { decompressBlob } from "./zip";
+import { useToasts } from "@tldraw/tldraw";
 
 export function createOpenDialog(editor: Editor) {
 	return ({ onClose }: { onClose(): void }) => {
+		const { addToast } = useToasts();
 		const open = () => {
 			// creates an input element, and then clicks it later instead of using showOpenFilePicker
 			const input = document.createElement('input');
@@ -37,7 +39,10 @@ export function createOpenDialog(editor: Editor) {
 						}
 					}
 					reader.readAsArrayBuffer(file)
-				};
+				}
+				else {
+					addToast({ title: 'File type not supported', severity: 'error' });
+				}
 
 				function parseString(str: string) {
 					if (str) {
@@ -54,6 +59,9 @@ export function createOpenDialog(editor: Editor) {
 							if (bounds) {
 								editor.zoomToBounds(bounds, { targetZoom: 1, immediate: true });
 							}
+						}
+						else {
+							addToast({ title: 'Error opening file', severity: 'error' });
 						}
 					}
 				}
@@ -86,4 +94,8 @@ export function createOpenDialog(editor: Editor) {
 			</>
 		)
 	}
+}
+
+function addToast(arg0: { title: string; description: "invalidRecords" | "notATldrawFile" | "v1File" | "migrationFailed" | "fileFormatVersionTooNew"; severity: string; }) {
+	throw new Error("Function not implemented.");
 }

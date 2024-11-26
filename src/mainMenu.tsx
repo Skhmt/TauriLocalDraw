@@ -10,6 +10,7 @@ import {
 	TldrawUiMenuSubmenu,
 	TLUiActionsContextType,
 	TLUiOverrides,
+	useToasts,
 } from '@tldraw/tldraw';
 import { createOpenDialog } from './createOpenDialog';
 import { createSaveDialog } from './createSaveDialog';
@@ -36,6 +37,8 @@ export const MainMenuFileComponent: TLComponents = {
 
 export const actionOverrides: TLUiOverrides = {
 	actions(editor: Editor, actions: TLUiActionsContextType, { addDialog }): TLUiActionsContextType {
+		const { addToast } = useToasts();
+
 		welcome(editor);
 
 		actions['new-file'] = {
@@ -70,6 +73,7 @@ export const actionOverrides: TLUiOverrides = {
 						const writableStream = await handle.createWritable();
 						const compressionStream = new CompressionStream('gzip');
 						await file.stream().pipeThrough(compressionStream).pipeTo(writableStream);
+						addToast({ title: 'File saved', severity: 'success' })
 					}
 					catch (err: unknown) {
 						if (err instanceof Error && err?.name !== 'AbortError') console.error(err);
