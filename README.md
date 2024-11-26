@@ -35,6 +35,6 @@ frontend build (creates a single .html file): `npm run build`
 Based heavily on:
 
 - https://github.com/tldraw/tldraw/blob/main/apps/dotcom/client/src/components/LocalEditor.tsx
-  - Menu: https://github.com/tldraw/tldraw/blob/main/apps/dotcom/client/src/components/FileMenu.tsx#L14
-  - Actions: https://github.com/tldraw/tldraw/blob/main/apps/dotcom/client/src/utils/useFileSystem.tsx#L26
+  - menu: https://github.com/tldraw/tldraw/blob/main/apps/dotcom/client/src/components/FileMenu.tsx#L14
+  - actions: https://github.com/tldraw/tldraw/blob/main/apps/dotcom/client/src/utils/useFileSystem.tsx#L26
 - https://github.com/tldraw/tldraw/issues/1650#issuecomment-1874267405
