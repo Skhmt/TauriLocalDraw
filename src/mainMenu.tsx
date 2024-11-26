@@ -3,6 +3,7 @@ import {
 	DefaultMainMenuContent,
 	Editor,
 	parseTldrawJsonFile,
+	serializeTldrawJsonBlob,
 	TLComponents,
 	TldrawUiMenuActionItem,
 	TldrawUiMenuGroup,
@@ -15,6 +16,8 @@ import { createSaveDialog } from './createSaveDialog';
 import { createNewDialog } from './createNewDialog';
 
 import welcomeProject from './welcomeProject'
+import { compressBlob } from './zip';
+import { getTimestamp } from './getTimestamp';
 
 // override the MainMenu component with most of the defaults plus the local file menu
 export const MainMenuFileComponent: TLComponents = {
@@ -60,7 +63,24 @@ export const actionOverrides: TLUiOverrides = {
 			readonlyOk: true,
 			kbd: '$s',
 			async onSelect() {
-				addDialog({ component: createSaveDialog(editor) });
+				if ('showSaveFilePicker' in window) {
+					const file = await serializeTldrawJsonBlob(editor);
+					const gzFile = await compressBlob(file);
+
+					try {
+						// @ts-expect-error Type 'ShowSaveFilePickerOptions' is not assignable to type 'undefined'.
+						const handle = await window.showSaveFilePicker({ suggestedName: `project_${getTimestamp()}.tldz` });
+						const writableStream = await handle.createWritable();
+						await writableStream.write(gzFile);
+						await writableStream.close();
+					}
+					catch (err: unknown) {
+						if (err instanceof Error && err?.name !== 'AbortError') console.error(err);
+					}
+				}
+				else {
+					addDialog({ component: createSaveDialog(editor) });
+				}
 			}
 		};
 		return actions;

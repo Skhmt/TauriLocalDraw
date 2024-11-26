@@ -1,50 +1,44 @@
 import { Editor, serializeTldrawJsonBlob, TldrawUiButton, TldrawUiButtonLabel, TldrawUiDialogBody, TldrawUiDialogCloseButton, TldrawUiDialogFooter, TldrawUiDialogHeader, TldrawUiDialogTitle } from "@tldraw/tldraw";
 import { useState } from "react";
+import { compressBlob } from "./zip";
+import { getTimestamp } from "./getTimestamp";
 
 export function createSaveDialog(editor: Editor) {
-    return ({ onClose }: { onClose(): void }) => {
-        const [fileName, setFileName] = useState(`project_${getTimestamp()}.tldr`);
+	return ({ onClose }: { onClose(): void }) => {
+		const [fileName, setFileName] = useState(`project_${getTimestamp()}`);
 
-        const save = async () => {
-            const link = document.createElement('a');
-            const file = await serializeTldrawJsonBlob(editor);
-            link.href = URL.createObjectURL(file);
-            link.download = fileName;
-            link.click();
-            URL.revokeObjectURL(link.href);
-            onClose();
-        }
+		const save = async () => {
+			const file = await serializeTldrawJsonBlob(editor);
+			const gzFile = await compressBlob(file);
 
-        return (
-            <>
-                <TldrawUiDialogHeader>
-                    <TldrawUiDialogTitle>
-                        <strong>Enter a file name</strong>
-                    </TldrawUiDialogTitle>
-                    <TldrawUiDialogCloseButton />
-                </TldrawUiDialogHeader>
-                <TldrawUiDialogBody style={{ maxWidth: 350 }}>
-                    <input type='text' value={fileName} onChange={e => setFileName(e.target.value)} />
-                </TldrawUiDialogBody>
-                <TldrawUiDialogFooter className="tlui-dialog__footer__actions">
-                    <TldrawUiButton type="normal" onClick={onClose}>
-                        <TldrawUiButtonLabel>Cancel</TldrawUiButtonLabel>
-                    </TldrawUiButton>
-                    <TldrawUiButton type="primary" onClick={save}>
-                        <TldrawUiButtonLabel>Save project</TldrawUiButtonLabel>
-                    </TldrawUiButton>
-                </TldrawUiDialogFooter>
-            </>
-        )
-    }
-}
+			const link = document.createElement('a');
+			link.href = URL.createObjectURL(gzFile);
+			link.download = fileName + '.tldz';
+			link.click();
+			link.remove();
+			URL.revokeObjectURL(link.href);
+		}
 
-function getTimestamp(): string {
-    // adds a leading zero to two-digit numbers
-    const twoD = (x: number) => x.toString().padStart(2, '0');
-
-    const d = new Date();
-    const date = `${d.getFullYear()}-${twoD(d.getMonth() + 1)}-${twoD(d.getDate())}`;
-    const time = `${twoD(d.getHours())}-${twoD(d.getMinutes())}-${twoD(d.getSeconds())}`;
-    return `${date}_${time}`;
+		return (
+			<>
+				<TldrawUiDialogHeader>
+					<TldrawUiDialogTitle>
+						<strong>Enter a file name</strong>
+					</TldrawUiDialogTitle>
+					<TldrawUiDialogCloseButton />
+				</TldrawUiDialogHeader>
+				<TldrawUiDialogBody style={{ maxWidth: 350 }}>
+					<input type='text' value={fileName} onChange={e => setFileName(e.target.value)} />
+				</TldrawUiDialogBody>
+				<TldrawUiDialogFooter className="tlui-dialog__footer__actions">
+					<TldrawUiButton type="normal" onClick={onClose}>
+						<TldrawUiButtonLabel>Cancel</TldrawUiButtonLabel>
+					</TldrawUiButton>
+					<TldrawUiButton type="primary" onClick={save}>
+						<TldrawUiButtonLabel>Save project</TldrawUiButtonLabel>
+					</TldrawUiButton>
+				</TldrawUiDialogFooter>
+			</>
+		);
+	}
 }
