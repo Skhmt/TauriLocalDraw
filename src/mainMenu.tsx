@@ -69,7 +69,17 @@ export const actionOverrides: TLUiOverrides = {
 					const file = await serializeTldrawJsonBlob(editor);
 					try {
 						// @ts-expect-error Type 'ShowSaveFilePickerOptions' is not assignable to type 'undefined'.
-						const handle = await window.showSaveFilePicker({ suggestedName: `project_${getTimestamp()}.tldz` });
+						const handle = await window.showSaveFilePicker({
+							suggestedName: `project_${getTimestamp()}.tldz`,
+							types: [
+								{
+									description: 'Compressed Tldraw project',
+									accept: {
+										'application/tldz': ['.tldz']
+									}
+								}
+							]
+						});
 						const writableStream = await handle.createWritable();
 						const compressionStream = new CompressionStream('gzip');
 						await file.stream().pipeThrough(compressionStream).pipeTo(writableStream);
