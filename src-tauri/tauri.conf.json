@@ -3,6 +3,7 @@
 	"productName": "TauriLocalDraw",
 	"version": "0.2.1",
 	"identifier": "TauriLocalDraw",
+	"mainBinaryName": "tldraw",
 	"build": {
 		"frontendDist": "../dist",
 		"devUrl": "http://localhost:5173",
