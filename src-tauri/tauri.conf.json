@@ -3,7 +3,7 @@
 	"productName": "TauriLocalDraw",
 	"version": "0.2.3",
 	"identifier": "TauriLocalDraw",
-	"mainBinaryName": "tldraw",
+	"mainBinaryName": "TauriLocalDraw",
 	"build": {
 		"frontendDist": "../dist",
 		"devUrl": "http://localhost:5173",
@@ -13,7 +13,7 @@
 	"app": {
 		"windows": [
 			{
-				"title": "tldraw",
+				"title": "TauriLocalDraw",
 				"width": 900,
 				"height": 650,
 				"resizable": true,
