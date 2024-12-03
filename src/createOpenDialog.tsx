@@ -8,7 +8,7 @@ import {
 	TldrawUiDialogHeader,
 	TldrawUiDialogTitle
 } from "@tldraw/tldraw";
-import {parseDecompressBlob, parseString} from "./fileLoaderUtils.ts";
+import { parseDecompressBlob, parseString } from "./fileLoaderUtils.ts";
 import { useToasts } from "@tldraw/tldraw";
 
 export function createOpenDialog(editor: Editor) {
@@ -59,28 +59,32 @@ export function createOpenDialog(editor: Editor) {
 			onClose();
 		}
 
-		return (
-			<>
-				<TldrawUiDialogHeader>
-					<TldrawUiDialogTitle>
-						<strong>Open new project ? </strong>
-					</TldrawUiDialogTitle>
-					< TldrawUiDialogCloseButton />
-				</TldrawUiDialogHeader>
-				< TldrawUiDialogBody style={{ maxWidth: 350 }}>
-					Opening a project will replace your current
-					project and any unsaved changes will be lost.
-					Are you sure you want to do this ?
-				</TldrawUiDialogBody>
-				< TldrawUiDialogFooter className="tlui-dialog__footer__actions" >
-					<TldrawUiButton type="normal" onClick={onClose} >
-						<TldrawUiButtonLabel>Cancel </TldrawUiButtonLabel>
-					</TldrawUiButton>
-					< TldrawUiButton type="primary" onClick={open} >
-						<TldrawUiButtonLabel>Open project </TldrawUiButtonLabel>
-					</TldrawUiButton>
-				</TldrawUiDialogFooter>
-			</>
-		)
+		return OpenDialog(onClose, open)
 	}
+}
+
+export function OpenDialog(onCancel: () => void, onOpen: () => void) {
+	return (
+		<>
+			<TldrawUiDialogHeader>
+				<TldrawUiDialogTitle>
+					<strong>Open new project ? </strong>
+				</TldrawUiDialogTitle>
+				< TldrawUiDialogCloseButton />
+			</TldrawUiDialogHeader>
+			< TldrawUiDialogBody style={{ maxWidth: 350 }}>
+				Opening a project will replace your current
+				project and any unsaved changes will be lost.
+				Are you sure you want to do this ?
+			</TldrawUiDialogBody>
+			< TldrawUiDialogFooter className="tlui-dialog__footer__actions" >
+				<TldrawUiButton type="normal" onClick={onCancel} >
+					<TldrawUiButtonLabel>Cancel </TldrawUiButtonLabel>
+				</TldrawUiButton>
+				< TldrawUiButton type="primary" onClick={onOpen} >
+					<TldrawUiButtonLabel>Open project </TldrawUiButtonLabel>
+				</TldrawUiButton>
+			</TldrawUiDialogFooter>
+		</>
+	)
 }

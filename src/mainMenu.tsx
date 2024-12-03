@@ -15,7 +15,7 @@ import { createSaveDialog } from './createSaveDialog';
 import { createNewDialog } from './createNewDialog';
 
 import welcomeProject from './welcomeProject'
-import {getTimestamp} from "./getTimestamp.ts";
+import { getTimestamp } from "./getTimestamp.ts";
 
 // override the MainMenu component with most of the defaults plus the local file menu
 export const MainMenuFileComponent: TLComponents = {
@@ -86,7 +86,7 @@ export const actionOverrides: TLUiOverrides = {
 					}
 				}
 				else {
-					addDialog({component: createSaveDialog(editor)});
+					addDialog({ component: createSaveDialog(editor) });
 				}
 			}
 		};
