@@ -1,5 +1,14 @@
-import { Editor, parseTldrawJsonFile, TldrawUiButton, TldrawUiButtonLabel, TldrawUiDialogBody, TldrawUiDialogCloseButton, TldrawUiDialogFooter, TldrawUiDialogHeader, TldrawUiDialogTitle } from "@tldraw/tldraw";
-import { decompressBlob } from "./zip";
+import {
+	Editor,
+	TldrawUiButton,
+	TldrawUiButtonLabel,
+	TldrawUiDialogBody,
+	TldrawUiDialogCloseButton,
+	TldrawUiDialogFooter,
+	TldrawUiDialogHeader,
+	TldrawUiDialogTitle
+} from "@tldraw/tldraw";
+import {parseDecompressBlob, parseString} from "./fileLoaderUtils.ts";
 import { useToasts } from "@tldraw/tldraw";
 
 export function createOpenDialog(editor: Editor) {
@@ -22,7 +31,10 @@ export function createOpenDialog(editor: Editor) {
 				if (extension === 'tldr') {
 					reader.onload = async () => {
 						const result = reader.result as string;
-						if (result) parseString(result);
+						if (result) {
+							parseString(result, editor, addToast);
+							addToast({ title: `"${file.name}" loaded`, severity: 'success' });
+						}
 					};
 					reader.readAsText(file);
 				}
@@ -33,37 +45,14 @@ export function createOpenDialog(editor: Editor) {
 						const result = reader.result as ArrayBuffer;
 						if (result) {
 							const blob = new Blob([result]);
-							const decompressedBlob = await decompressBlob(blob);
-							const decompressedString = await decompressedBlob.text();
-							parseString(decompressedString);
+							await parseDecompressBlob(blob, editor, addToast);
+							addToast({ title: `"${file.name}" loaded`, severity: 'success' });
 						}
 					}
 					reader.readAsArrayBuffer(file)
 				}
 				else {
 					addToast({ title: 'File type not supported', severity: 'error' });
-				}
-
-				function parseString(str: string) {
-					if (str) {
-						const parseFileResult = parseTldrawJsonFile({
-							schema: editor.store.schema,
-							json: str,
-						});
-
-						if (parseFileResult.ok) {
-							editor.loadSnapshot(parseFileResult.value.getStoreSnapshot());
-							editor.clearHistory();
-
-							const bounds = editor.getCurrentPageBounds();
-							if (bounds) {
-								editor.zoomToBounds(bounds, { targetZoom: 1, immediate: true });
-							}
-						}
-						else {
-							addToast({ title: 'Error opening file', severity: 'error' });
-						}
-					}
 				}
 			};
 			input.click();

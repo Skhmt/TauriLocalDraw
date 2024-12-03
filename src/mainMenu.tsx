@@ -2,22 +2,20 @@ import {
 	DefaultMainMenu,
 	DefaultMainMenuContent,
 	Editor,
-	parseTldrawJsonFile,
-	serializeTldrawJsonBlob,
+	parseTldrawJsonFile, serializeTldrawJsonBlob,
 	TLComponents,
 	TldrawUiMenuActionItem,
 	TldrawUiMenuGroup,
 	TldrawUiMenuSubmenu,
 	TLUiActionsContextType,
 	TLUiOverrides,
-	useToasts,
 } from '@tldraw/tldraw';
 import { createOpenDialog } from './createOpenDialog';
 import { createSaveDialog } from './createSaveDialog';
 import { createNewDialog } from './createNewDialog';
 
 import welcomeProject from './welcomeProject'
-import { getTimestamp } from './getTimestamp';
+import {getTimestamp} from "./getTimestamp.ts";
 
 // override the MainMenu component with most of the defaults plus the local file menu
 export const MainMenuFileComponent: TLComponents = {
@@ -36,9 +34,7 @@ export const MainMenuFileComponent: TLComponents = {
 }
 
 export const actionOverrides: TLUiOverrides = {
-	actions(editor: Editor, actions: TLUiActionsContextType, { addDialog }): TLUiActionsContextType {
-		const { addToast } = useToasts();
-
+	actions(editor: Editor, actions: TLUiActionsContextType, { addDialog, addToast }): TLUiActionsContextType {
 		welcome(editor);
 
 		actions['new-file'] = {
@@ -90,7 +86,7 @@ export const actionOverrides: TLUiOverrides = {
 					}
 				}
 				else {
-					addDialog({ component: createSaveDialog(editor) });
+					addDialog({component: createSaveDialog(editor)});
 				}
 			}
 		};

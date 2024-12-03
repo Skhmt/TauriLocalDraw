@@ -1,11 +1,22 @@
-import { Editor, serializeTldrawJsonBlob, TldrawUiButton, TldrawUiButtonLabel, TldrawUiDialogBody, TldrawUiDialogCloseButton, TldrawUiDialogFooter, TldrawUiDialogHeader, TldrawUiDialogTitle, useToasts } from "@tldraw/tldraw";
+import {
+	Editor,
+	serializeTldrawJsonBlob,
+	TldrawUiButton,
+	TldrawUiButtonLabel,
+	TldrawUiDialogBody,
+	TldrawUiDialogCloseButton,
+	TldrawUiDialogFooter,
+	TldrawUiDialogHeader,
+	TldrawUiDialogTitle,
+	useToasts
+} from "@tldraw/tldraw";
 import { useState } from "react";
-import { compressBlob } from "./zip";
+import { compressBlob } from "./fileLoaderUtils.ts";
 import { getTimestamp } from "./getTimestamp";
 
 export function createSaveDialog(editor: Editor) {
 	return ({ onClose }: { onClose(): void }) => {
-		const { addToast } = useToasts();
+		const {addToast} = useToasts();
 
 		const [fileName, setFileName] = useState(`project_${getTimestamp()}`);
 
@@ -19,7 +30,7 @@ export function createSaveDialog(editor: Editor) {
 			link.click();
 			link.remove();
 			URL.revokeObjectURL(link.href);
-			addToast({ title: 'Project saved', severity: 'success' })
+			addToast({title: 'Project saved', severity: 'success'})
 		}
 
 		return (
@@ -28,10 +39,10 @@ export function createSaveDialog(editor: Editor) {
 					<TldrawUiDialogTitle>
 						<strong>Enter a file name</strong>
 					</TldrawUiDialogTitle>
-					<TldrawUiDialogCloseButton />
+					<TldrawUiDialogCloseButton/>
 				</TldrawUiDialogHeader>
-				<TldrawUiDialogBody style={{ maxWidth: 350 }}>
-					<input type='text' value={fileName} onChange={e => setFileName(e.target.value)} />
+				<TldrawUiDialogBody style={{maxWidth: 350}}>
+					<input type='text' value={fileName} onChange={e => setFileName(e.target.value)}/>
 				</TldrawUiDialogBody>
 				<TldrawUiDialogFooter className="tlui-dialog__footer__actions">
 					<TldrawUiButton type="normal" onClick={onClose}>

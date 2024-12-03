@@ -2,6 +2,7 @@ import { Tldraw } from '@tldraw/tldraw';
 import '@tldraw/tldraw/tldraw.css';
 
 import { MainMenuFileComponent, actionOverrides } from './mainMenu.tsx'
+import FileDropHandler from "./FileDropHandler.tsx";
 
 const persistenceKeyName = 'TauriLocalDraw';
 
@@ -12,7 +13,9 @@ export default function App() {
 				components={MainMenuFileComponent}
 				overrides={[actionOverrides]}
 				persistenceKey={persistenceKeyName}
-			/>
+			>
+				<FileDropHandler />
+			</Tldraw>
 		</div>
-	)
+	);
 }
