@@ -15,7 +15,7 @@ export async function compressBlob(blob: Blob) {
 export function parseString(
 	str: string,
 	editor: Editor,
-	addToast: unknown
+	addToast: any
 ) {
 	if (str) {
 		const parseFileResult = parseTldrawJsonFile({
@@ -33,7 +33,6 @@ export function parseString(
 			}
 		}
 		else {
-			// @ts-expect-error toast
 			addToast({ title: 'Error opening file', severity: 'error' });
 		}
 	}
@@ -42,7 +41,7 @@ export function parseString(
 export async function parseDecompressBlob(
 	blob: Blob,
 	editor: Editor,
-	addToast: unknown
+	addToast: any
 ) {
 	const decompressedBlob = await decompressBlob(blob);
 	const decompressedString = await decompressedBlob.text();
