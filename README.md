@@ -2,14 +2,14 @@
 
 this is a [tldraw](https://tldraw.dev) derivative project that adds a `file` menu
 (like the `tldraw.com` demo), allowing you to save and open projects, and compiles 
-it to a single .html file. this does not include "multiplayer" tldraw compatibility.
-this can also be built as an executable via [tauri](https://tauri.app).
+it to a single .html file or executable via [tauri](https://tauri.app).
+this does not include tldraw "multiplayer" compatibility.
 
 the intended use case is a portable note-taking/whiteboard application for a single user, 
 for example placed in google drive or ms one drive or drop box and accessed from wherever 
 and able to save and load files to continue working while being cloud-agnostic.
 
-## frontend commands
+## frontend npm commands
 
 install: `npm i`
 
@@ -19,12 +19,16 @@ frontend build (creates a single .html file): `npm run build`
 
 ## desktop application development
 
-1. IMPORTANT! install [rust](https://www.rust-lang.org/tools/install)
-1. (optional) tauri dev server: `npx tauri dev`
-1. (optional) generate new icons: `npx tauri icon ./src-tauri/icons/icon.png`
-1. full build: `npx tauri build`
-	1. the `.exe` will be at `./src-tauri/target/release/app.exe`
-	1. installers will be in `./src-tauri/target/release/bundle/`
+> [!IMPORTANT]
+> install [rust](https://www.rust-lang.org/tools/install)
+
+(optional) tauri dev server: `npx tauri dev`
+
+(optional) generate new icons: `npx tauri icon ./src-tauri/icons/icon.png`
+
+full build: `npx tauri build`
+	- the `.exe` will be at `./src-tauri/target/release/taurilocaldraw.exe`
+	- installers will be in `./src-tauri/target/release/bundle/`
 
 ## todo
 
