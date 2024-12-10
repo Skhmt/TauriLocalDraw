@@ -27,7 +27,7 @@ export default function FileDropHandler() {
                 defaultOnDrop?.(content);
             }
         });
-    }, [editor, addToast]);
+    }, [editor, addDialog, addToast]);
 
     return null;
 }

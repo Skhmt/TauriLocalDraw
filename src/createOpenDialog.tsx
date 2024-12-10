@@ -18,6 +18,8 @@ export function createOpenDialog(editor: Editor) {
 			// creates an input element, and then clicks it later instead of using showOpenFilePicker
 			const input = document.createElement('input');
 			input.type = 'file';
+			input.accept = '.tldr, .tldz';
+
 			input.onchange = function () {
 				const files = input.files;
 				if (!files || files.length <= 0) return;
