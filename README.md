@@ -20,7 +20,10 @@ frontend build (creates a single .html file): `npm run build`
 ## desktop application development
 
 > [!IMPORTANT]
-> install [rust](https://www.rust-lang.org/tools/install)
+> install [rust](https://www.rust-lang.org/tools/install) and [node](https://nodejs.org/en/download/package-manager)
+
+> [!TIP]
+> after installing rust and node, you must manually run `npm i` at least once
 
 (optional) tauri dev server: `npx tauri dev`
 
